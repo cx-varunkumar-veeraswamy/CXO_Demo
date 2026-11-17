@@ -1,0 +1,16 @@
+// INTENTIONALLY INSECURE - Checkmarx One API Security demo only.
+syntax = "proto3";
+package demo;
+
+service UserService {
+  rpc GetUser (UserRequest) returns (User);               // no auth metadata, BOLA
+  rpc DeleteUser (UserRequest) returns (Empty);           // no authz
+  rpc Search (SearchRequest) returns (stream User);       // unbounded stream
+  rpc Exec (ExecRequest) returns (ExecReply);             // command execution RPC
+}
+message UserRequest { string id = 1; }
+message SearchRequest { string query = 1; }                // SQLi sink
+message ExecRequest { string cmd = 1; }
+message ExecReply { string output = 1; }
+message User { string id = 1; string name = 2; string password = 3; string ssn = 4; }  // sensitive fields exposed
+message Empty {}

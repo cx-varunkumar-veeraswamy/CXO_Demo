@@ -1,0 +1,11 @@
+# INTENTIONALLY VULNERABLE DEPENDENCIES - Checkmarx One SCA demo only
+source 'https://rubygems.org'
+gem 'rails', '5.2.0'
+gem 'nokogiri', '1.8.2'
+gem 'rack', '1.6.0'
+gem 'sinatra', '1.4.0'
+gem 'devise', '4.2.0'
+gem 'loofah', '2.2.0'
+gem 'rubyzip', '1.2.0'
+gem 'puma', '3.11.0'
+gem 'json', '1.8.3'

@@ -1,0 +1,7 @@
+# INTENTIONALLY INSECURE - Checkmarx One Containers demo only.
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.1
+COPY . /app
+WORKDIR /app
+ENV ConnectionStrings__Default="Server=db;User Id=sa;Password=P@ssw0rd123"
+USER root
+ENTRYPOINT ["dotnet", "Demo.dll"]

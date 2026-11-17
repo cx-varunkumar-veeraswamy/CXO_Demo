@@ -1,0 +1,16 @@
+# Compliance coverage map
+
+Standards listed in the Checkmarx One *Application → Overview → Compliances* widget, and where this repo seeds findings for each.
+Checkmarx maps its own queries to standards; this table is the **expected** mapping – confirm in the UI after the first scan.
+
+| Compliance | Seeded vulnerability classes | Where |
+|---|---|---|
+| **OWASP Top 10 2013** | A1 Injection, A2 Broken Auth/Session, A3 XSS, A4 IDOR, A5 Misconfiguration, A6 Sensitive Data, A7 Missing Function Auth, A8 CSRF, A9 Vulnerable Components, A10 Unvalidated Redirects | `sast/*`, `ComplianceVulns.java` (VULN-303/335), `SecurityConfig.java` (VULN-340), SCA manifests, open redirects |
+| **OWASP Top 10 2017** | A1 Injection, A2 Broken Auth, A3 Sensitive Data Exposure, A4 XXE, A5 Broken Access Control, A6 Misconfig, A7 XSS, A8 Insecure Deserialization, A9 Vulnerable Components, A10 Insufficient Logging | XXE: VULN-011/025/049/070/103; deserialization: VULN-012/026/047/068/097; logging: VULN-301/302 |
+| **OWASP Top 10 2021** | A01 Access Control, A02 Crypto Failures, A03 Injection, A04 Insecure Design, A05 Misconfig, A06 Vulnerable Components, A07 Auth Failures, A08 Integrity Failures, A09 Logging Failures, A10 SSRF | SSRF: VULN-007/028/050/067/116; crypto: VULN-008/009/027/055/073/316–321; integrity: Zip Slip VULN-323, unsigned model loads in `ai/` |
+| **OWASP Top 10 API** | BOLA, Broken Auth, Excessive Data Exposure, Resource Consumption, BFLA, Mass Assignment, Misconfig, Injection, Improper Inventory, SSRF | `api/rest-server/server.py`, `api/openapi/openapi.yaml`, `api/graphql/*`, `api/grpc/*`, VULN-084/335 |
+| **OWASP Mobile Top 10 2016** | M1 Platform Usage, M2 Insecure Storage, M3 Insecure Comms, M4 Auth, M5 Crypto, M6 Authorization, M7 Code Quality, M8 Tampering, M9 Reverse Engineering | `sast/android/*` (VULN-350–366, manifest exported components/debuggable/cleartext), `sast/swift/*` (VULN-160–164, 370–375, `Info.plist` ATS off), `sast/objective-c/Vuln.m`, `sast/kotlin` |
+| **PCI DSS v3.2.1** | Req 2 defaults/hardcoded passwords, 3 PAN & key protection (VULN-302, 318), 4 weak TLS (VULN-017/115/322/334), 6.5 injection/XSS/CSRF/access control, 8 auth/session (VULN-303/304/306/307), 10 logging (VULN-301) | `ComplianceVulns.java`, `SecurityConfig.java`, all SAST modules, `secrets/` |
+| **NIST SP 800-53** | AC-3/AC-12 session & access (VULN-304/335/343), IA-5 authenticator mgmt (hardcoded creds, VULN-306/345), SC-8/SC-13 crypto in transit/rest, SC-28, SI-10 input validation, AU-2/AU-9 logging, CM-6 misconfig (IaC) | `ComplianceVulns.java`, `SecurityConfig.java`, `iac/*`, `containers/*` |
+| **FISMA 2014** | Access control, audit & accountability, identification/authentication, system & comms protection, configuration management (same control families as NIST 800-53) | as above |
+| **ASD STIG 4.10** | Session fixation/expiry (VULN-303/304), unchecked/empty error handling (VULN-308/310), unclosed resources (VULN-311), race conditions (VULN-312), password in comment/config (VULN-329, `secrets/config.properties`), CSRF (VULN-340), clickjacking (VULN-325/341), cookie flags (VULN-014/102/326), logging of sensitive data (VULN-301), weak crypto | `ComplianceVulns.java`, `SecurityConfig.java`, `sast/java/*` |

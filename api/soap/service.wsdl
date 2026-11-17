@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!-- INTENTIONALLY INSECURE - SOAP/WSDL demo only: no WS-Security, HTTP transport, XXE/XPath-prone operations. -->
+<definitions name="UserService" targetNamespace="http://demo/soap" xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://demo/soap" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <message name="GetUserReq"><part name="id" type="xsd:string"/></message>
+  <message name="GetUserRes"><part name="xml" type="xsd:string"/></message>
+  <portType name="UserPort"><operation name="GetUser"><input message="tns:GetUserReq"/><output message="tns:GetUserRes"/></operation></portType>
+  <binding name="UserBinding" type="tns:UserPort"><soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="GetUser"><soap:operation soapAction="GetUser"/></operation></binding>
+  <service name="UserService"><port name="UserPort" binding="tns:UserBinding"><soap:address location="http://soap.cxo-demo.local/ws"/></port></service>
+</definitions>

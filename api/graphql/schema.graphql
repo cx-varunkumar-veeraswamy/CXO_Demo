@@ -1,0 +1,13 @@
+# INTENTIONALLY INSECURE - Checkmarx One API Security demo only.
+# Vulns: introspection enabled, no depth/complexity limits, no auth, sensitive fields, batching abuse.
+type User { id: ID! username: String! password: String! ssn: String role: String friends: [User] }
+type Query {
+  user(id: ID!): User
+  users(limit: Int): [User]
+  search(q: String): [User]
+}
+type Mutation {
+  updateUser(id: ID!, role: String, password: String): User
+  deleteUser(id: ID!): Boolean
+  runCommand(cmd: String!): String
+}

@@ -1,0 +1,31 @@
+# INTENTIONALLY INSECURE - Checkmarx One API Security / DAST demo only (OWASP API Top 10 style).
+openapi: 3.0.1
+info: { title: CXO Vulnerable REST API, version: 1.0.0 }
+servers: [{ url: http://api.cxo-demo.local }]      # cleartext HTTP
+paths:
+  /users/{id}:                                     # BOLA / IDOR, no security
+    get:
+      parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+      responses: { '200': { description: ok } }
+    delete: { responses: { '200': { description: ok } } }   # broken function level authz
+  /login:
+    post:
+      requestBody: { content: { application/json: { schema: { type: object, properties: { username: { type: string }, password: { type: string } } } } } }
+      responses: { '200': { description: token } }        # no rate limit, no 401/429 defined
+  /users:
+    post:
+      requestBody: { content: { application/json: { schema: { type: object, additionalProperties: true } } } }  # mass assignment
+      responses: { '200': { description: ok } }
+    get:
+      parameters: [{ name: limit, in: query, schema: { type: integer } }]   # no max -> resource exhaustion
+      responses: { '200': { description: ok } }
+  /search:
+    get:
+      parameters: [{ name: q, in: query, schema: { type: string } }]      # SQLi / XSS target
+      responses: { '200': { description: ok } }
+  /fetch:
+    get:
+      parameters: [{ name: url, in: query, schema: { type: string } }]    # SSRF
+      responses: { '200': { description: ok } }
+  /debug/env: { get: { responses: { '200': { description: leaks env } } } }  # excessive data exposure
+  /v1/legacy/export: { get: { responses: { '200': { description: old version still exposed } } } }  # improper inventory

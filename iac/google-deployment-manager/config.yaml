@@ -1,0 +1,12 @@
+# INTENTIONALLY INSECURE - Checkmarx One IaC demo only.
+resources:
+- name: open-firewall
+  type: compute.v1.firewall
+  properties:
+    network: global/networks/default
+    sourceRanges: ["0.0.0.0/0"]
+    allowed: [{ IPProtocol: tcp, ports: ["22", "3389"] }]
+- name: public-bucket
+  type: storage.v1.bucket
+  properties:
+    acl: [{ entity: allUsers, role: READER }]

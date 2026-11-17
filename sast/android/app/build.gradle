@@ -1,0 +1,11 @@
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion 28
+    defaultConfig { applicationId "demo"; minSdkVersion 16; targetSdkVersion 28 }
+    buildTypes { release { minifyEnabled false; debuggable true } }  // no obfuscation (M9)
+}
+dependencies {
+    implementation 'com.squareup.okhttp3:okhttp:3.8.0'
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.facebook.android:facebook-android-sdk:4.0.0'
+}

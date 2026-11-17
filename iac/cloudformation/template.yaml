@@ -1,0 +1,38 @@
+# INTENTIONALLY INSECURE - Checkmarx One IaC demo only.
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  PublicBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicReadWrite
+  OpenSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: open
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 0, ToPort: 65535, CidrIp: 0.0.0.0/0 }
+  Db:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      Engine: mysql
+      DBInstanceClass: db.t3.micro
+      MasterUsername: admin
+      MasterUserPassword: admin12345
+      PubliclyAccessible: true
+      StorageEncrypted: false
+  AdminRole:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: all
+      PolicyDocument:
+        Statement: [{ Effect: Allow, Action: '*', Resource: '*' }]
+  Queue:
+    Type: AWS::SQS::Queue
+  Lambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Runtime: python3.6
+      Handler: index.handler
+      Role: arn:aws:iam::123456789012:role/x
+      Environment: { Variables: { DB_PASSWORD: admin12345 } }
+      Code: { ZipFile: "def handler(e,c): pass" }

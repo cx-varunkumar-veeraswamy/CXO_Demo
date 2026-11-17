@@ -1,0 +1,12 @@
+# INTENTIONALLY INSECURE - Checkmarx One IaC demo only.
+service: cxo-serverless
+provider:
+  name: aws
+  runtime: nodejs10.x
+  environment: { DB_PASSWORD: admin12345, API_KEY: AKIAIOSFODNN7EXAMPLE }
+  iamRoleStatements:
+    - { Effect: Allow, Action: "*", Resource: "*" }
+functions:
+  api:
+    handler: handler.main
+    events: [{ http: { path: /, method: any, cors: true } }]   # no authorizer

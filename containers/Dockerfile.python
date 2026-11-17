@@ -1,0 +1,8 @@
+# INTENTIONALLY INSECURE - Checkmarx One Containers demo only.
+FROM python:2.7
+COPY . /app
+RUN pip install -r /app/requirements.txt
+RUN pip install --trusted-host pypi.org flask
+ENV FLASK_ENV=development SECRET_KEY=dev
+EXPOSE 5000 22
+CMD python /app/app.py

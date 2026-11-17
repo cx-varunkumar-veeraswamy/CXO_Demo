@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- INTENTIONALLY INSECURE iOS config - OWASP Mobile Top 10 demo only. -->
+<plist version="1.0">
+<dict>
+  <key>CFBundleIdentifier</key><string>demo.cxo</string>
+  <key>NSAppTransportSecurity</key>
+  <dict><key>NSAllowsArbitraryLoads</key><true/></dict>
+  <key>UIFileSharingEnabled</key><true/>
+</dict>
+</plist>

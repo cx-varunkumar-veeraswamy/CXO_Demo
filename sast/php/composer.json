@@ -1,0 +1,12 @@
+{
+  "name": "demo/php-module",
+  "require": {
+    "guzzlehttp/guzzle": "6.3.0",
+    "laravel/framework": "5.5.0",
+    "twig/twig": "1.35.0",
+    "phpmailer/phpmailer": "5.2.0",
+    "symfony/http-kernel": "4.2.0",
+    "monolog/monolog": "1.22.0",
+    "doctrine/dbal": "2.5.0"
+  }
+}

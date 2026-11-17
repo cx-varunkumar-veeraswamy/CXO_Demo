@@ -1,0 +1,31 @@
+# Hosts the DAST targets locally. Ports are bound to localhost only; expose them via a tunnel (see README).
+services:
+  rest:
+    build: ./rest
+    ports: ["127.0.0.1:8000:8000"]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 256m
+    restart: unless-stopped
+  graphql:
+    build: ./graphql
+    ports: ["127.0.0.1:4001:4001"]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 256m
+    restart: unless-stopped
+  tunnel-rest:
+    # Free public HTTPS URL for the REST API (Cloudflare quick tunnel). Start with: docker compose --profile tunnel up
+    image: cloudflare/cloudflared:latest
+    profiles: [tunnel]
+    command: tunnel --no-autoupdate --url http://rest:8000
+    depends_on: [rest]
+  tunnel-graphql:
+    image: cloudflare/cloudflared:latest
+    profiles: [tunnel]
+    command: tunnel --no-autoupdate --url http://graphql:4001
+    depends_on: [graphql]

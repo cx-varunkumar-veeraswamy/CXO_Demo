@@ -1,0 +1,20 @@
+# INTENTIONALLY INSECURE - Checkmarx One Containers demo only.
+version: "3"
+services:
+  web:
+    build: { context: ., dockerfile: Dockerfile.node }
+    privileged: true
+    network_mode: host
+    pid: host
+    cap_add: [ALL]
+    security_opt: ["seccomp:unconfined", "apparmor:unconfined"]
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock", "/:/host"]
+    ports: ["22:22", "3000:3000"]
+    environment: { DB_PASSWORD: admin12345, API_KEY: sk_live_51H8xComposeHardcodedKey }
+  db:
+    image: mysql:5.5
+    environment: { MYSQL_ROOT_PASSWORD: root, MYSQL_ALLOW_EMPTY_PASSWORD: "yes" }
+    ports: ["3306:3306"]
+  redis:
+    image: redis:latest
+    ports: ["6379:6379"]

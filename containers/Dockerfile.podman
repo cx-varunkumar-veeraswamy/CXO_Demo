@@ -1,0 +1,6 @@
+# INTENTIONALLY INSECURE - Checkmarx One Containers demo only (Podman/Buildah compatible).
+FROM registry.access.redhat.com/ubi7/ubi:7.0
+RUN yum install -y --nogpgcheck httpd && echo "admin:admin" > /etc/httpd/.htpasswd
+USER 0
+EXPOSE 80
+CMD ["httpd", "-DFOREGROUND"]

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- INTENTIONALLY INSECURE - OWASP Mobile Top 10 demo only. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="demo">
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <application android:debuggable="true" android:allowBackup="true" android:usesCleartextTraffic="true">
+        <activity android:name=".MainActivity" android:exported="true"/>
+        <service android:name=".SyncService" android:exported="true"/>
+        <receiver android:name=".BootReceiver" android:exported="true"/>
+        <provider android:name=".DataProvider" android:authorities="demo.provider" android:exported="true" android:grantUriPermissions="true"/>
+    </application>
+</manifest>

@@ -1,0 +1,6 @@
+platform :ios, '11.0'
+target 'CxoSwift' do
+  pod 'AFNetworking', '2.5.0'
+  pod 'Alamofire', '4.0.0'
+  pod 'OpenSSL', '1.0.1'
+end

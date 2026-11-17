@@ -1,0 +1,16 @@
+# INTENTIONALLY INSECURE - Checkmarx One IaC demo only.
+- hosts: all
+  become: yes
+  vars:
+    db_password: "admin12345"
+  tasks:
+    - name: Download installer over HTTP without checksum
+      get_url: { url: "http://example.com/install.sh", dest: /tmp/install.sh, mode: '0777', validate_certs: no }
+    - name: Add user with weak password
+      user: { name: svc, password: "{{ 'password' | password_hash('md5') }}", groups: sudo }
+    - name: Open SSH root login
+      lineinfile: { path: /etc/ssh/sshd_config, line: "PermitRootLogin yes" }
+    - name: Run shell with untrusted var
+      shell: "echo {{ db_password }} > /tmp/pw && chmod 777 /tmp/pw"
+    - name: Install package without GPG check
+      yum: { name: httpd, state: latest, disable_gpg_check: yes }

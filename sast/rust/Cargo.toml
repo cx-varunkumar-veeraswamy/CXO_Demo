@@ -1,0 +1,10 @@
+[package]
+name = "cxo-rust-module"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+time = "0.1.43"
+hyper = "0.10.0"
+smallvec = "0.6.0"
+regex = "1.5.4"

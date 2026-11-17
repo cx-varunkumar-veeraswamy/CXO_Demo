@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": { "adminPassword": { "type": "string", "defaultValue": "P@ssw0rd1234" } },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts", "apiVersion": "2019-06-01", "name": "cxostore", "location": "eastus",
+      "sku": { "name": "Standard_LRS" }, "kind": "StorageV2",
+      "properties": { "supportsHttpsTrafficOnly": false, "allowBlobPublicAccess": true, "minimumTlsVersion": "TLS1_0" }
+    },
+    {
+      "type": "Microsoft.Network/networkSecurityGroups", "apiVersion": "2019-09-01", "name": "nsg", "location": "eastus",
+      "properties": { "securityRules": [ { "name": "rdp", "properties": { "priority": 100, "access": "Allow", "direction": "Inbound", "protocol": "*", "sourcePortRange": "*", "destinationPortRange": "3389", "sourceAddressPrefix": "*", "destinationAddressPrefix": "*" } } ] }
+    }
+  ]
+}

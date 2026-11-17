@@ -1,0 +1,7 @@
+# Intentionally minimal: demo secrets/.env must be committed so Checkmarx can scan them.
+node_modules/
+__pycache__/
+target/
+bin/
+obj/
+*.class

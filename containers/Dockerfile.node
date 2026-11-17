@@ -1,0 +1,12 @@
+# INTENTIONALLY INSECURE - Checkmarx One Containers demo only.
+FROM node:10.0.0
+ENV DB_PASSWORD=admin12345 \
+    AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+ADD . /app
+WORKDIR /app
+RUN apt-get update && apt-get install -y curl wget sudo openssh-server && chmod 777 -R /app
+RUN curl http://example.com/install.sh | sh
+RUN npm install
+EXPOSE 22 3000
+USER root
+CMD ["node", "server.js"]

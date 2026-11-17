@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: cxo-helm }
+spec:
+  selector: { matchLabels: { app: cxo-helm } }
+  template:
+    metadata: { labels: { app: cxo-helm } }
+    spec:
+      containers:
+        - name: app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          securityContext:
+            privileged: {{ .Values.securityContext.privileged }}
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+          env: [{ name: ADMIN_PASSWORD, value: "{{ .Values.adminPassword }}" }]

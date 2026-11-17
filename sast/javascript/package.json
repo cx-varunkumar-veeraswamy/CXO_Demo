@@ -1,0 +1,31 @@
+{
+  "name": "cxo-node-module",
+  "version": "1.0.0",
+  "description": "INTENTIONALLY VULNERABLE DEPENDENCIES - Checkmarx One SCA demo only",
+  "main": "server.js",
+  "dependencies": {
+    "express": "4.16.0",
+    "lodash": "4.17.15",
+    "minimist": "1.2.0",
+    "axios": "0.18.0",
+    "jsonwebtoken": "8.3.0",
+    "node-serialize": "0.0.4",
+    "handlebars": "4.0.11",
+    "moment": "2.19.1",
+    "ejs": "2.5.7",
+    "mysql": "2.15.0",
+    "libxmljs": "0.19.5",
+    "mongodb": "3.0.0",
+    "tar": "4.4.1",
+    "marked": "0.3.5",
+    "serialize-javascript": "1.5.0",
+    "y18n": "3.2.1",
+    "ws": "5.2.0",
+    "jquery": "2.1.4",
+    "bootstrap": "3.3.5",
+    "angular": "1.5.0",
+    "node-fetch": "2.6.0",
+    "mongoose": "5.7.0",
+    "express-fileupload": "1.1.7"
+  }
+}

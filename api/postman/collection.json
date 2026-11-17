@@ -1,0 +1,10 @@
+{
+  "info": { "name": "CXO Vulnerable API", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+  "item": [
+    { "name": "Login", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+      "url": "http://localhost:8000/login", "body": { "mode": "raw", "raw": "{\"username\":\"admin\",\"password\":\"admin\"}" } } },
+    { "name": "Get user", "request": { "method": "GET", "url": "http://localhost:8000/users/1" } },
+    { "name": "Search", "request": { "method": "GET", "url": "http://localhost:8000/search?q=test" } },
+    { "name": "Fetch", "request": { "method": "GET", "url": "http://localhost:8000/fetch?url=http://example.com" } }
+  ]
+}

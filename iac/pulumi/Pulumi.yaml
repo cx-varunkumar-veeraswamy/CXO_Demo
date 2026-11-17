@@ -1,0 +1,11 @@
+# INTENTIONALLY INSECURE - Checkmarx One IaC demo only.
+name: cxo-pulumi
+runtime: yaml
+resources:
+  bucket:
+    type: aws:s3:Bucket
+    properties: { acl: public-read-write }
+  sg:
+    type: aws:ec2:SecurityGroup
+    properties:
+      ingress: [{ protocol: tcp, fromPort: 0, toPort: 65535, cidrBlocks: ["0.0.0.0/0"] }]

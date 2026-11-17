@@ -1,0 +1,8 @@
+# INTENTIONALLY INSECURE - Checkmarx One Containers demo only.
+FROM ubuntu:14.04
+RUN apt-get update && apt-get install -y apache2=2.4.7* php5 mysql-server openssl=1.0.1f* --force-yes
+RUN echo "root:root" | chpasswd
+COPY id_rsa /root/.ssh/id_rsa
+EXPOSE 21 22 23 80 3306
+HEALTHCHECK NONE
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]

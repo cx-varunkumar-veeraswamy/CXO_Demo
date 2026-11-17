@@ -1,0 +1,42 @@
+openapi: 3.0.1
+info: { title: CXO Vulnerable REST API, version: 1.0.0 }
+servers: [{ url: http://localhost:8000 }]   # replace with your tunnel URL before importing into Checkmarx
+paths:
+  /users/{id}:
+    get:
+      parameters: [{ name: id, in: path, required: true, schema: { type: string, example: "1" } }]
+      responses: { '200': { description: ok } }
+    delete:
+      parameters: [{ name: id, in: path, required: true, schema: { type: string, example: "2" } }]
+      responses: { '204': { description: deleted } }
+  /login:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, properties: { username: { type: string, example: bob }, password: { type: string, example: bob } } }
+      responses: { '200': { description: token }, '401': { description: invalid } }
+  /users:
+    get:
+      parameters: [{ name: limit, in: query, schema: { type: integer, example: 10 } }]
+      responses: { '200': { description: ok } }
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, properties: { username: { type: string, example: eve }, password: { type: string, example: pw }, role: { type: string, example: user } } }
+      responses: { '201': { description: created } }
+  /search:
+    get:
+      parameters: [{ name: q, in: query, schema: { type: string, example: test } }]
+      responses: { '200': { description: html } }
+  /fetch:
+    get:
+      parameters: [{ name: url, in: query, schema: { type: string, example: "http://example.com" } }]
+      responses: { '200': { description: ok } }
+  /files:
+    get:
+      parameters: [{ name: name, in: query, schema: { type: string, example: hello.txt } }]
+      responses: { '200': { description: ok } }
+  /debug/env: { get: { responses: { '200': { description: leaks config } } } }
+  /v1/legacy/export: { get: { responses: { '200': { description: legacy } } } }

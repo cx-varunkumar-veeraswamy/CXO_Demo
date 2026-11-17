@@ -1,0 +1,6 @@
+# INTENTIONALLY INSECURE - Checkmarx One IaC demo only.
+image: { repository: nginx, tag: latest, pullPolicy: Always }
+securityContext: { privileged: true, runAsUser: 0, allowPrivilegeEscalation: true }
+adminPassword: "admin12345"
+service: { type: LoadBalancer, port: 80 }
+ingress: { enabled: true, tls: false }
