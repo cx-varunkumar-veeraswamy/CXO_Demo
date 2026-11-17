@@ -10,8 +10,10 @@ app = Flask(__name__)
 CORS(app, origins="*", supports_credentials=True)
 SECRET = "secret"
 db = sqlite3.connect(":memory:", check_same_thread=False)
-db.execute("CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT, role TEXT, ssn TEXT)")
-db.execute("INSERT INTO users VALUES(1,'admin','admin','admin','123-45-6789'),(2,'bob','bob','user','987-65-4321')")
+db.execute("CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT, role TEXT, ssn TEXT, "
+           "email TEXT, phone TEXT, address TEXT, dob TEXT, credit_card TEXT, balance INTEGER, bio TEXT)")
+db.execute("INSERT INTO users VALUES(1,'admin','admin','admin','123-45-6789','admin@example.com','555-0100','1 Main St','1980-01-01','4111111111111111',1000000,'boss'),"
+           "(2,'bob','bob','user','987-65-4321','bob@example.com','555-0101','2 Oak Ave','1990-05-05','5500000000000004',250,'hi')")
 PUBLIC = os.path.join(os.path.dirname(__file__), "public")
 
 
@@ -80,6 +82,48 @@ def files():                                  # path traversal limited to contai
 @app.route("/debug/env")
 def env():                                    # excessive data exposure (fake values)
     return jsonify(DB_PASSWORD="admin12345", API_KEY="FAKE-KEY-0000", NOTE="demo values")
+
+
+COLS = ["id", "username", "password", "role", "ssn", "email", "phone", "address", "dob", "credit_card", "balance", "bio"]
+
+
+def row(r):
+    return dict(zip(COLS, r)) if r else {}
+
+
+@app.route("/api/profile/<id>")
+def profile(id):                              # sensitive data exposure: returns PII, SSN, card number, password
+    return jsonify(row(db.execute("SELECT * FROM users WHERE id=" + id).fetchone()))
+
+
+@app.route("/api/users/export")
+def export_all():                             # bulk dump of all users' sensitive data, unauthenticated
+    return jsonify([row(r) for r in db.execute("SELECT * FROM users").fetchall()])
+
+
+@app.route("/api/users/<id>", methods=["PUT", "PATCH"])
+def update_user(id):                          # modifiable source data: every JSON key becomes a column (role, balance, ...) + SQLi via keys/values
+    d = request.get_json(force=True)
+    sets = ",".join("%s='%s'" % (k, v) for k, v in d.items())
+    db.execute("UPDATE users SET " + sets + " WHERE id=" + id)
+    return jsonify(row(db.execute("SELECT * FROM users WHERE id=" + id).fetchone()))
+
+
+@app.route("/api/users/<id>/bio", methods=["POST"])
+def set_bio(id):                              # attacker-controlled data stored unsanitised ...
+    db.execute("UPDATE users SET bio='%s' WHERE id=%s" % (request.get_json(force=True)["bio"], id))
+    return "", 204
+
+
+@app.route("/api/users/<id>/card")
+def card(id):                                 # ... and served back, together with the payment card
+    r = row(db.execute("SELECT * FROM users WHERE id=" + id).fetchone())
+    return "<div>%s</div><p>Card: %s</p>" % (r.get("bio"), r.get("credit_card"))
+
+
+@app.route("/api/search/users")
+def search_users():                           # injection reaches the full sensitive table
+    return jsonify([row(r) for r in db.execute("SELECT * FROM users WHERE username LIKE '%" + request.args.get("q", "") + "%'").fetchall()])
 
 
 @app.route("/v1/legacy/export")

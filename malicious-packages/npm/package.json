@@ -1,0 +1,20 @@
+{
+  "name": "do-not-install-malicious-npm-manifest",
+  "version": "0.0.0",
+  "private": true,
+  "description": "SCANNING ONLY. Never run npm install. Packages are never imported by any code.",
+  "dependencies": {
+    "event-stream": "3.3.6",
+    "flatmap-stream": "0.1.1",
+    "eslint-scope": "3.7.2",
+    "ua-parser-js": "0.7.29",
+    "coa": "2.0.3",
+    "rc": "1.2.9",
+    "node-ipc": "10.1.1",
+    "colors": "1.4.1",
+    "faker": "6.6.6",
+    "crossenv": "6.1.1",
+    "mongose": "1.0.0",
+    "babelcli": "1.0.1"
+  }
+}

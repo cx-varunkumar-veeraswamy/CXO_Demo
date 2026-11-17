@@ -43,5 +43,6 @@ func main() {
 		t, _ := template.New("x").Parse(r.URL.Query().Get("t")) // VULN-119 template injection
 		t.Execute(w, nil)
 	})
+	registerSCA()
 	http.ListenAndServe("0.0.0.0:8080", nil) // VULN-120 no TLS / bind all
 }

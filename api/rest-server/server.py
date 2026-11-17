@@ -62,6 +62,18 @@ def files():
     return open(request.args["name"]).read()                    # path traversal
 
 
+@app.route("/api/profile/<id>")
+def profile(id):                                                # sensitive data exposure (PII, SSN, password) + BOLA
+    return jsonify(db.execute("SELECT * FROM users WHERE id=" + id).fetchone())
+
+
+@app.route("/api/users/<id>", methods=["PUT", "PATCH"])
+def update_user(id):                                            # modifiable source: all JSON keys written to the users table
+    d = request.get_json()
+    db.execute("UPDATE users SET " + ",".join("%s='%s'" % kv for kv in d.items()) + " WHERE id=" + id)
+    return jsonify(db.execute("SELECT * FROM users WHERE id=" + id).fetchone())
+
+
 @app.route("/v1/legacy/export")
 def legacy(): return jsonify(db.execute("SELECT * FROM users").fetchall())   # API9 improper inventory
 

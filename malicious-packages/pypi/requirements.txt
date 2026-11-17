@@ -1,0 +1,8 @@
+# SCANNING ONLY - NEVER pip install this file. Nothing in the repo imports these packages.
+colourama==0.1.0
+python3-dateutil==2.8.1
+jeIlyfish==0.7.1
+ctx==0.1.2
+urlib3==1.25.2
+request==2.0.0
+setup-tools==1.0.0

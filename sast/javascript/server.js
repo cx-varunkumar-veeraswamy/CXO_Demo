@@ -33,4 +33,5 @@ app.get('/token', (req, res) => {
 });
 app.get('/re', (req, res) => res.send(new RegExp(req.query.p).test(req.query.s))); // VULN-074 ReDoS / regex injection
 app.use((req, res, next) => { res.header('Access-Control-Allow-Origin', '*'); next(); }); // VULN-075 CORS *
+app.use(require('./sca_reachable'));
 app.listen(3000);

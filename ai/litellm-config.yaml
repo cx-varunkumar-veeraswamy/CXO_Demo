@@ -1,0 +1,11 @@
+# INTENTIONALLY INSECURE - AI gateway config listing models/providers. Keys are fake.
+model_list:
+  - { model_name: gpt-4o,        litellm_params: { model: openai/gpt-4o,                      api_key: sk-proj-FAKEFAKEFAKEFAKEFAKEFAKE } }
+  - { model_name: claude,        litellm_params: { model: anthropic/claude-3-5-sonnet-20241022, api_key: sk-ant-api03-FAKEFAKEFAKE } }
+  - { model_name: gemini,        litellm_params: { model: gemini/gemini-1.5-pro,              api_key: AIzaSyFAKEFAKEFAKEFAKE } }
+  - { model_name: mistral,       litellm_params: { model: mistral/mistral-large-latest,       api_key: FAKEMISTRALKEY } }
+  - { model_name: command,       litellm_params: { model: cohere/command-r-plus,              api_key: FAKECOHEREKEY } }
+  - { model_name: llama3,        litellm_params: { model: groq/llama3-70b-8192,               api_key: gsk_FAKEFAKEFAKE } }
+  - { model_name: titan,         litellm_params: { model: bedrock/amazon.titan-text-express-v1 } }
+  - { model_name: azure-gpt,     litellm_params: { model: azure/gpt-4-turbo, api_base: "http://cxo.openai.azure.com", api_key: FAKEAZUREKEY } }
+general_settings: { master_key: sk-1234, allow_origins: ["*"] }

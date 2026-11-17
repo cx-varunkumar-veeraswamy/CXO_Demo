@@ -18,3 +18,11 @@ get '/file'  do File.read("/srv/#{params[:f]}") end # VULN-137 path traversal
 get '/redir' do redirect params[:to] end           # VULN-138 open redirect
 get '/send'  do params[:obj].constantize.send(params[:m]) end # VULN-139 unsafe reflection
 get '/hash'  do Digest::MD5.hexdigest(params[:p]) end # VULN-140 weak hash
+
+# SCA exploitable paths: vulnerable gem methods invoked with request data
+require 'nokogiri'
+require 'rexml/document'
+post '/sca/nokogiri' do Nokogiri::XML(request.body.read) { |c| c.noent.dtdload }.to_s end # nokogiri 1.8.2 XXE / libxml2 CVEs
+get  '/sca/loofah'   do Loofah.fragment(params[:h]).scrub!(:strip).to_s end                # loofah 2.2.0 XSS CVE-2018-16468
+post '/sca/zip'      do Zip::File.open(params[:f]).each { |e| e.extract("/tmp/#{e.name}") } end # rubyzip 1.2.0 zip slip CVE-2018-1000544
+get  '/sca/json'     do JSON.load(params[:j]) end                                         # json 1.8.3 unsafe create_additions CVE-2013-0269

@@ -67,5 +67,8 @@ def login():
     return r
 
 
+from sca_reachable import bp as sca_bp
+app.register_blueprint(sca_bp)
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)                             # VULN-057 debug mode

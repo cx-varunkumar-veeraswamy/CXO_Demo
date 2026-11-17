@@ -38,5 +38,34 @@ paths:
     get:
       parameters: [{ name: name, in: query, schema: { type: string, example: hello.txt } }]
       responses: { '200': { description: ok } }
+  /api/profile/{id}:
+    get:
+      parameters: [{ name: id, in: path, required: true, schema: { type: string, example: "1" } }]
+      responses: { '200': { description: user with SSN, card, password } }
+  /api/users/export: { get: { responses: { '200': { description: all users PII } } } }
+  /api/users/{id}:
+    put:
+      parameters: [{ name: id, in: path, required: true, schema: { type: string, example: "2" } }]
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, properties: { email: { type: string, example: x@example.com }, role: { type: string, example: admin }, balance: { type: integer, example: 999 } } }
+      responses: { '200': { description: updated user } }
+  /api/users/{id}/bio:
+    post:
+      parameters: [{ name: id, in: path, required: true, schema: { type: string, example: "2" } }]
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, properties: { bio: { type: string, example: hello } } }
+      responses: { '204': { description: saved } }
+  /api/users/{id}/card:
+    get:
+      parameters: [{ name: id, in: path, required: true, schema: { type: string, example: "2" } }]
+      responses: { '200': { description: html with bio and card } }
+  /api/search/users:
+    get:
+      parameters: [{ name: q, in: query, schema: { type: string, example: bob } }]
+      responses: { '200': { description: matching users } }
   /debug/env: { get: { responses: { '200': { description: leaks config } } } }
   /v1/legacy/export: { get: { responses: { '200': { description: legacy } } } }
