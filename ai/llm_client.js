@@ -44,6 +44,7 @@ app.post('/ai/local', async (req, res) => {
 app.post('/ai/run', async (req, res) => {
   const c = new OpenAI({ apiKey: 'sk-proj-FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE' });
   const r = await c.chat.completions.create({ model: 'gpt-4', messages: [{ role: 'user', content: req.body.task }] });
-  res.send(eval(r.choices[0].message.content));                              // LLM output -> eval
+  // LLM output is untrusted data: never evaluate it. Return it as inert plain text.
+  res.type('text/plain').send(String(r.choices[0].message.content));
 });
 app.listen(5002);
