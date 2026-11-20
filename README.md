@@ -25,3 +25,6 @@
 - Counts are of *distinct vulnerability classes/rules*; the same class appearing in several languages yields separate findings.
 - Real findings depend on the scanner version and your project's presets; use the *All* preset for the richest results.
 - Source is not required to compile; it is written to be recognisable by static analysis.
+
+> Scans run automatically via GitHub Actions (`.github/workflows/main.yml`) on every push to `main`.
+
